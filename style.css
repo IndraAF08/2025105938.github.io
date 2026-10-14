@@ -1,229 +1,71 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+/* FLIP CARD */
 
-body{
+const card = document.getElementById("card");
 
-    min-height:100vh;
+const flipBtn = document.getElementById("flipBtn");
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+const backBtn = document.getElementById("backBtn");
 
-    font-family:'Segoe UI',sans-serif;
+flipBtn.addEventListener("click", function(){
 
-    background:#ececec;
-}
+    card.classList.add("flip");
 
-/* CONTAINER */
+});
 
-.card-container{
+backBtn.addEventListener("click", function(){
 
-    perspective:1000px;
-}
+    card.classList.remove("flip");
 
-/* CARD */
+});
 
-.card{
 
-    width:380px;
-    height:620px;
+/* TYPING EFFECT */
 
-    position:relative;
+const words = [
+    "Web Developer",
+    "UI Designer",
+    "Information Systems Student"
+];
 
-    transform-style:preserve-3d;
+let wordIndex = 0;
+let charIndex = 0;
+let deleting = false;
 
-    transition:1s;
-}
+const typing = document.getElementById("typing");
 
-.card.flip{
+function typeEffect(){
 
-    transform:rotateY(180deg);
+    const currentWord = words[wordIndex];
 
-}
+    if(deleting){
 
-/* SIDE */
+        typing.textContent =
+        currentWord.substring(0, charIndex--);
 
-.front,
-.back{
+    }else{
 
-    position:absolute;
-
-    width:100%;
-    height:100%;
-
-    border-radius:25px;
-
-    backface-visibility:hidden;
-
-    overflow:hidden;
-
-    padding:30px;
-
-    color:white;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-/* FRONT */
-
-.front{
-
-    background:
-    linear-gradient(
-        135deg,
-        #6a11cb,
-        #2575fc
-    );
-
-}
-
-/* BACK */
-
-.back{
-
-    transform:rotateY(180deg);
-
-    background:
-    linear-gradient(
-        135deg,
-        #2575fc,
-        #6a11cb
-    );
-
-    justify-content:center;
-    text-align:center;
-}
-
-/* FOTO */
-
-img{
-
-    width:140px;
-    height:140px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:6px solid white;
-
-    margin-bottom:25px;
-}
-
-/* NAMA */
-
-h1{
-
-    font-size:2.3rem;
-
-    margin-bottom:10px;
-}
-
-#typing{
-
-    color:#d7d7d7;
-
-    min-height:30px;
-
-    margin-bottom:30px;
-}
-
-/* SKILL */
-
-.skills{
-
-    display:flex;
-    flex-wrap:wrap;
-
-    justify-content:center;
-
-    gap:10px;
-
-    margin:25px 0;
-}
-
-.skills span{
-
-    padding:10px 18px;
-
-    border-radius:30px;
-
-    background:
-    rgba(255,255,255,0.15);
-
-    backdrop-filter:blur(5px);
-
-    border:
-    1px solid rgba(255,255,255,0.2);
-}
-
-/* BUTTON */
-
-button{
-
-    margin-top:auto;
-
-    width:180px;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:40px;
-
-    cursor:pointer;
-
-    font-size:1rem;
-
-    font-weight:bold;
-
-    color:#5837d0;
-
-    background:white;
-
-    transition:.3s;
-}
-
-button:hover{
-
-    transform:scale(1.05);
-}
-
-.back button{
-
-    margin-top:25px;
-}
-
-/* HR */
-
-hr{
-
-    width:80%;
-
-    margin:20px 0;
-
-    opacity:.4;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:480px){
-
-    .card{
-
-        width:320px;
-        height:600px;
+        typing.textContent =
+        currentWord.substring(0, charIndex++);
 
     }
 
-    h1{
+    let speed = deleting ? 60 : 100;
 
-        font-size:1.8rem;
+    if(charIndex === currentWord.length + 1){
+
+        deleting = true;
+        speed = 1200;
     }
 
+    if(deleting && charIndex === 0){
+
+        deleting = false;
+
+        wordIndex =
+        (wordIndex + 1) % words.length;
+    }
+
+    setTimeout(typeEffect, speed);
 }
+
+typeEffect();
